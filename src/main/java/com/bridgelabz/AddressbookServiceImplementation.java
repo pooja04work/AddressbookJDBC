@@ -25,7 +25,6 @@ public class AddressbookServiceImplementation implements AddressbookService {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-
                 String firstName = resultSet.getString(1);
                 String lastName = resultSet.getString(2);
                 String address = resultSet.getString(3);
@@ -36,7 +35,7 @@ public class AddressbookServiceImplementation implements AddressbookService {
                 String email = resultSet.getString(8);
                 int person_id = resultSet.getInt(9);
 
-                addressbookData.add(new AddressbookData(firstName,lastName,address,city,state,zip,phoneNo,email,person_id));
+                addressbookData.add(new AddressbookData(firstName, lastName, address, city, state, zip, phoneNo, email, person_id));
             }
         } catch (SQLException e) {
             throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.SQL_ERROR);
@@ -55,5 +54,31 @@ public class AddressbookServiceImplementation implements AddressbookService {
         } catch (SQLException throwables) {
             throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.UPDATE_ERROR);
         }
+    }
+
+    @Override
+    public List<AddressbookData> preparedStatmentForWholeTableData(String city) throws AddressbookException {
+        String sql = "select * from addressbook where city = 'Guwahati'";
+        List<AddressbookData> addressbookData = new ArrayList<AddressbookData>();
+        try {
+            Connection connection = this.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String firstName = resultSet.getString(1);
+                String lastName = resultSet.getString(2);
+                String address = resultSet.getString(3);
+                String state = resultSet.getString(5);
+                int zip = resultSet.getInt(6);
+                double phoneNo = resultSet.getDouble(7);
+                String email = resultSet.getString(8);
+                int person_id = resultSet.getInt(9);
+
+                addressbookData.add(new AddressbookData(firstName, lastName, address, city, state, zip, phoneNo, email, person_id));
+            }
+        } catch (SQLException e) {
+            throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.CONNECTION_FAIL);
+        }
+        return addressbookData;
     }
 }

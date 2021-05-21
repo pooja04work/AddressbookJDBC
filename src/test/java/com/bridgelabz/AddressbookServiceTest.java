@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AddressbookServiceTest {
     @Test
-    public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() throws AddressbookException, SQLException {
+    public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchaddressbookCount() throws AddressbookException, SQLException {
         AddressbookServiceImplementation addressbookServiceImplementation = new AddressbookServiceImplementation();
         List<AddressbookData> addressbookData = addressbookServiceImplementation.getAddressbook();
         System.out.println(addressbookData);
@@ -16,9 +16,17 @@ public class AddressbookServiceTest {
     }
 
     @Test
-    public void givenNewSalaryForEmployee_WhenUpdated_ShouldMatch() throws AddressbookException {
+    public void givenNewCity_WhenUpdated_ShouldMatch() throws AddressbookException {
         AddressbookServiceImplementation addressbookServiceImplementation = new AddressbookServiceImplementation();
         int addressbookData = addressbookServiceImplementation.getAddressbookData("Moitry", "Kokrajhar");
         Assert.assertEquals(1, addressbookData);
+    }
+
+    @Test
+    public void givenCity_WhenRetrieved_ShouldMatchaddressbookCount() throws AddressbookException {
+        AddressbookServiceImplementation addressbookServiceImplementation = new AddressbookServiceImplementation();
+        List<AddressbookData> addressbookData = addressbookServiceImplementation.preparedStatmentForWholeTableData("Guwahati");
+        System.out.println(addressbookData);
+        Assert.assertEquals(3, addressbookData.size());
     }
 }
