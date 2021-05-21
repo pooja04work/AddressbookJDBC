@@ -25,8 +25,15 @@ public class AddressbookServiceTest {
     @Test
     public void givenCity_WhenRetrieved_ShouldMatchaddressbookCount() throws AddressbookException {
         AddressbookServiceImplementation addressbookServiceImplementation = new AddressbookServiceImplementation();
-        List<AddressbookData> addressbookData = addressbookServiceImplementation.preparedStatmentForWholeTableData("Guwahati");
+        List<AddressbookData> addressbookData = addressbookServiceImplementation.preparedStatmentForWholeTableDataByCity("Guwahati");
         System.out.println(addressbookData);
         Assert.assertEquals(3, addressbookData.size());
+    }
+    @Test
+    public void givenState_WhenRetrieved_ShouldMatchaddressbookCount() throws AddressbookException {
+        AddressbookServiceImplementation addressbookServiceImplementation = new AddressbookServiceImplementation();
+        List<AddressbookData> addressbookData = addressbookServiceImplementation.preparedStatmentForWholeTableDataByState("Assam");
+        System.out.println(addressbookData);
+        Assert.assertEquals(7, addressbookData.size());
     }
 }
