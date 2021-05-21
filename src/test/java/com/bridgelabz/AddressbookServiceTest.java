@@ -15,4 +15,10 @@ public class AddressbookServiceTest {
         Assert.assertEquals(9, addressbookData.size());
     }
 
+    @Test
+    public void givenNewSalaryForEmployee_WhenUpdated_ShouldMatch() throws AddressbookException {
+        AddressbookServiceImplementation addressbookServiceImplementation = new AddressbookServiceImplementation();
+        int addressbookData = addressbookServiceImplementation.getAddressbookData("Moitry", "Kokrajhar");
+        Assert.assertEquals(1, addressbookData);
+    }
 }

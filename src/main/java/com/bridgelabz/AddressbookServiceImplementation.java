@@ -40,8 +40,20 @@ public class AddressbookServiceImplementation implements AddressbookService {
             }
         } catch (SQLException e) {
             throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.SQL_ERROR);
-
         }
         return addressbookData;
+    }
+
+    @Override
+    public int getAddressbookData(String firstName, String city) throws AddressbookException {
+        String sql = String.format("update  addressbook set city='kokrajhar' where firstName='Moitry'");
+        try {
+            Connection connection = this.getConnection();
+            Statement statement = connection.prepareStatement(sql);
+            System.out.println(statement);
+            return statement.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.UPDATE_ERROR);
+        }
     }
 }
