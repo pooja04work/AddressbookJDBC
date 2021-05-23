@@ -10,6 +10,6 @@ public class AddressbookException extends Throwable {
         this.errorMessage = message;
     }
 
-    public enum ExceptionType{CONNECTION_FAIL, SQL_ERROR, UPDATE_ERROR, INVALID_PAYROLL_DATA}
+    public enum ExceptionType{CONNECTION_FAIL, SQL_ERROR, UPDATE_ERROR}
     ExceptionType type;
 }

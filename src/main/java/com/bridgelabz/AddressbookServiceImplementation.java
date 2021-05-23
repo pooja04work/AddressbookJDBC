@@ -31,7 +31,7 @@ public class AddressbookServiceImplementation implements AddressbookService {
                 String city = resultSet.getString(4);
                 String state = resultSet.getString(5);
                 int zip = resultSet.getInt(6);
-                double phoneNo = resultSet.getDouble(7);
+                long phoneNo = resultSet.getLong(7);
                 String email = resultSet.getString(8);
                 int person_id = resultSet.getInt(9);
 
@@ -70,7 +70,7 @@ public class AddressbookServiceImplementation implements AddressbookService {
                 String address = resultSet.getString(3);
                 String state = resultSet.getString(5);
                 int zip = resultSet.getInt(6);
-                double phoneNo = resultSet.getDouble(7);
+                long phoneNo = resultSet.getLong(7);
                 String email = resultSet.getString(8);
                 int person_id = resultSet.getInt(9);
 
@@ -96,7 +96,7 @@ public class AddressbookServiceImplementation implements AddressbookService {
                 String address = resultSet.getString(3);
                 String city = resultSet.getString(4);
                 int zip = resultSet.getInt(6);
-                double phoneNo = resultSet.getDouble(7);
+                long phoneNo = resultSet.getLong(7);
                 String email = resultSet.getString(8);
                 int person_id = resultSet.getInt(9);
 
@@ -106,5 +106,55 @@ public class AddressbookServiceImplementation implements AddressbookService {
             throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.CONNECTION_FAIL);
         }
         return addressbookData;
+    }
+
+    @Override
+    public int preparedStatmentForInsertIntoAddressbookTable(String firstName, String lastName, String  address, String  city, String state, int zip, long phoneNo, String email) throws AddressbookException {
+
+        try {
+            Connection connection = this.getConnection();
+            System.out.println(connection);
+            connection.setAutoCommit(true);
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into addressbook(FirstName,LastName,Address,City,State,Zip,PhoneNumber,Email) values(?,?,?,?,?,?,?,?); ");
+
+            preparedStatement.setString(1, firstName );
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, address);
+            preparedStatement.setString(4, city);
+            preparedStatement.setString(5, state);
+            preparedStatement.setInt(6, zip);
+            preparedStatement.setLong(7, phoneNo);
+            preparedStatement.setString(8, email);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            try {
+                getConnection().rollback();
+            } catch (SQLException throwables) {
+                throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.CONNECTION_FAIL);
+            }
+        }
+        return 1;
+    }
+
+    @Override
+    public int preparedStatmentForInsertIntoRelationshipTable(int personId, int addressbookNameId, int addressbookTypeId) throws AddressbookException {
+        try {
+            Connection connection = this.getConnection();
+            System.out.println(connection);
+            connection.setAutoCommit(true);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO relationship(PersonId,AddressbookTypeId,addressbookNameId) values(?,?,?); ");
+            preparedStatement.setInt(1, personId );
+            preparedStatement.setInt(2, addressbookNameId);
+            preparedStatement.setInt(3, addressbookTypeId);
+
+            int result= preparedStatement.executeUpdate();
+            System.out.println(result);
+        } catch (SQLException e) {
+            try {
+                getConnection().rollback();
+            } catch (SQLException throwables) {
+                throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.CONNECTION_FAIL);
+            }        }
+        return 1;
     }
 }

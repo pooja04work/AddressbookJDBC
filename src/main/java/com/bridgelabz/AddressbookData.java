@@ -1,7 +1,5 @@
 package com.bridgelabz;
 
-import java.sql.Date;
-
 public class AddressbookData {
 
     String firstName;
@@ -10,11 +8,11 @@ public class AddressbookData {
     String city;
     String state;
     int zip;
-    double phoneNo;
+    long phoneNo;
     String email;
     int person_id;
 
-    public AddressbookData(String firstName, String lastName, String address, String city, String state, int zip, double phoneNo, String email, int person_id) {
+    public AddressbookData(String firstName, String lastName, String address, String city, String state, int zip, long phoneNo, String email, int person_id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -74,11 +72,11 @@ public class AddressbookData {
         this.zip = zip;
     }
 
-    public double getPhoneNo() {
+    public long getPhoneNo() {
         return phoneNo;
     }
 
-    public void setPhoneNo(double phoneNo) {
+    public void setPhoneNo(long phoneNo) {
         this.phoneNo = phoneNo;
     }
 
