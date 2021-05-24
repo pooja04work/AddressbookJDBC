@@ -1,10 +1,10 @@
 package com.bridgelabz;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class AddressbookServiceImplementation implements AddressbookService {
+public class AddressbookServiceImplementation implements AddressbookService  {
+
     private Connection getConnection() throws SQLException {
         String jdbcURL = "jdbc:mysql://localhost:3306/addressbookservice";
         String userName = "root";
@@ -156,5 +156,36 @@ public class AddressbookServiceImplementation implements AddressbookService {
                 throw new AddressbookException("Cannot establish connection", AddressbookException.ExceptionType.CONNECTION_FAIL);
             }        }
         return 1;
+    }
+    @Override
+    public void addDetailsWithThreads(List<AddressbookData> addressbookDataList) {
+        Map<Integer, Boolean> contactAdditionStatus = new HashMap<>();
+        addressbookDataList.forEach(addressBookData -> {
+            Runnable runnable = () -> {
+                contactAdditionStatus.put(addressBookData.hashCode(), false);
+                System.out.println("Person being added : " + Thread.currentThread().getName());
+                try {
+                    this.preparedStatmentForInsertIntoAddressbookTable(addressBookData.firstName, addressBookData.lastName,
+                        addressBookData.address, addressBookData.city, addressBookData.state, addressBookData.zip,
+                        addressBookData.phoneNo, addressBookData.email);
+                } catch (AddressbookException e) {
+                    e.printStackTrace();
+                }
+                contactAdditionStatus.put(addressBookData.hashCode(), true);
+                System.out.println("Person added : " + Thread.currentThread().getName());
+            };
+            Thread thread = new Thread(runnable, addressBookData.getFirstName());
+//           Thread thread2 = new Thread(runnable, addressBookData.firstName);
+            thread.start();
+//          thread2.start();
+        });
+        while (contactAdditionStatus.containsValue(false)) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("" + addressbookDataList);
     }
 }
