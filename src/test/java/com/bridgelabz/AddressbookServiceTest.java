@@ -1,13 +1,8 @@
 package com.bridgelabz;
 
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
